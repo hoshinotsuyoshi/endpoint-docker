@@ -1,3 +1,2 @@
-cont=$(docker ps | grep endpoint | cut -d' ' -f1)
-docker kill $cont && docker rm $cont
-docker build -t hoshinotsuyoshi/endpoint . && docker run -d -p 80:80 hoshinotsuyoshi/endpoint
+docker kill endpoint && docker rm endpoint
+docker build -t hoshinotsuyoshi/endpoint . && docker run -d -p 80:80 --name endpoint --link fc2blog:fc2blog hoshinotsuyoshi/endpoint
