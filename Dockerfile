@@ -2,6 +2,8 @@ FROM centos
 
 RUN yum -y install dnsmasq
 
+# centos-docker workaround
+RUN echo "NETWORKING=yes" >/etc/sysconfig/network
 # /etc/hosts values
 RUN echo 'address="/fc2blog-tmp-sandbox.webtext.pw/127.0.0.1"' >> /etc/dnsmasq.d/0hosts
 
