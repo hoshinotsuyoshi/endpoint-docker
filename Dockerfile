@@ -3,11 +3,10 @@ FROM centos
 RUN yum -y install dnsmasq
 
 # /etc/hosts values
-RUN echo 'address="/fc2blog-tmp-sandbox.webtext.pw/172.12.8.150"' >> /etc/dnsmasq.d/0hosts
+RUN echo 'address="/fc2blog-tmp-sandbox.webtext.pw/127.0.0.1"' >> /etc/dnsmasq.d/0hosts
 
 # dnsmasq configuration
-#RUN echo 'listen-address=127.0.0.1' >> /etc/dnsmasq.conf
-RUN echo 'listen-address=172.12.8.150' >> /etc/dnsmasq.conf
+RUN echo 'listen-address=127.0.0.1' >> /etc/dnsmasq.conf
 RUN echo 'resolv-file=/etc/resolv.dnsmasq.conf' >> /etc/dnsmasq.conf
 RUN echo 'conf-dir=/etc/dnsmasq.d' >> /etc/dnsmasq.conf
 
