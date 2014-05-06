@@ -20,15 +20,24 @@ RUN echo 'nameserver 8.8.4.4' >> /etc/resolv.dnsmasq.conf
 
 RUN service dnsmasq start
 
-
-#apache
+# apache install
 RUN yum -y install httpd
+
+# sensu-client install
+ADD sensu-client/sensu.repo /etc/yum.repos.d/
+RUN yum -y install sensu
+ADD sensu-client/config.json /etc/sensu/
+
+# use sensu-embedded-ruby like systems-ruby
+RUN rm -rf /usr/local/bin
+RUN ln -s /opt/sensu/embedded/bin /usr/local/bin
 
 #httpd ready
 ADD httpd.conf  /etc/httpd/conf/httpd.conf
 RUN mkdir -p /var/www/html/public && chmod 755 /var/www/html/public && chown apache:apache /var/www/html/public
 RUN echo '<h2>hello,apache!!</h2>' > /var/www/html/public/index.html
 
+ADD . /tmp/wd-endpoint
 
-
-CMD ["/usr/sbin/apachectl", "-D", "FOREGROUND"]
+#read sensu-server-host, set it to config.json ,sensu-client start and apache start
+CMD ruby /tmp/wd-endpoint/json_replace.rb && service sensu-client start && /usr/sbin/apachectl -D FOREGROUND
