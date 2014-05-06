@@ -24,9 +24,12 @@ RUN service dnsmasq start
 RUN yum -y install httpd
 
 # sensu-client install
-ADD sensu-client/sensu.repo /etc/yum.repos.d/
+ADD sensu/sensu.repo /etc/yum.repos.d/
 RUN yum -y install sensu
-ADD sensu-client/config.json /etc/sensu/
+RUN rm -rf /etc/sensu
+ADD sensu /etc/sensu
+RUN chown -R sensu:sensu /etc/sensu
+RUN chmod +x -R /etc/sensu
 
 # use sensu-embedded-ruby like systems-ruby
 RUN rm -rf /usr/local/bin
